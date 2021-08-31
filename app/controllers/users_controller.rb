@@ -13,18 +13,27 @@ class UsersController < ApplicationController
   end
 
   def edit
+    @user = User.find(params[:id])
+    if @user != current_user
+      @books = Book.where(user_id: current_user.id)
+      @user = current_user
+      render 'show'
+    end
   end
 
   def update
-  end
-
-  def destroy
+    @user = User.find(params[:id])
+    if @user.update(user_params_update)
+      redirect_to user_path(@user), notice: 'You have updated user successfully.'
+    else
+      render :edit
+    end
   end
 
   private
 
   def user_params_update
-    params.require(:user).permit(:name, :email, :image, :introduction)
+    params.require(:user).permit(:name, :email, :profile_image, :introduction)
   end
 
 end

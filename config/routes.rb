@@ -9,5 +9,5 @@ Rails.application.routes.draw do
 
   resources :books, except: [:new]
 
-  resources :users, except: [:new, :create]
+  resources :users, except: [:new, :create, :destroy]
 end
