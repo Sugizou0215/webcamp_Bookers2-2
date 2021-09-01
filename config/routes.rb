@@ -12,5 +12,10 @@ Rails.application.routes.draw do
     resources :post_comments, only: [:create, :destroy]
   end
 
-  resources :users, except: [:new, :create, :destroy]
+  resources :users, except: [:new, :create, :destroy] do
+    resource :relationships, only: [:create, :destroy]
+    get 'followings' => 'relationships#followings', as: 'followings'
+    get 'followers' => 'relationships#followers', as: 'followers'
+  end
+  
 end
