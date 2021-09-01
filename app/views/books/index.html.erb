@@ -27,6 +27,10 @@
               </td>
               <td><%= link_to book.title, book_path(book) %></td>
               <td><%= book.opinion %></td>
+              <td>
+                <%#%>
+                <%= render 'favorite', book: book %>
+              </td>
             </tr>
           </tbody>
         <% end %>

@@ -7,7 +7,9 @@ Rails.application.routes.draw do
   get 'homes/about'
   root to: 'homes#top'
 
-  resources :books, except: [:new]
+  resources :books, except: [:new] do
+    resource :favorites, only: [:create, :destroy]
+  end
 
   resources :users, except: [:new, :create, :destroy]
 end
