@@ -27,7 +27,7 @@
               </td>
               <td><%= link_to book.title, book_path(book) %></td>
               <td><%= book.opinion %></td>
-              <td id="index-favorite-<%=book.id %>">
+              <td id="index-favorite-<%= book.id %>">
                 <%#いいね呼び出し%>
                 <%= render 'favorites/favorite', book: book %>
               </td>

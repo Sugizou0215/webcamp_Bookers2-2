@@ -10,7 +10,7 @@
   		  <tbody>
   		    <tr>
             <td>
-              <%= attachment_image_tag @book.user, :profile_image, :fill, 40, 40, fallback: "no_image.jpg"%><br>
+              <%= attachment_image_tag @book.user, :profile_image, :fill, 40, 40, fallback: "no_image.jpg" %><br>
               <%= link_to @book.user.name, user_path(@book.user_id) %>
             </td>
             <td><%= link_to @book.title, book_path(@book) %></td>
@@ -19,7 +19,7 @@
               <%#いいね呼び出し%>
               <%= render 'favorites/favorite', book: @book %>
             </td>
-            <td>コメント数：<%= @book.post_comments.count %></td>
+            <td id="count-comments">コメント数：<%= @book.post_comments.count %></td>
             <% if @book.user == current_user %>
               <td><%= link_to "Edit", edit_book_path(@book), class:"btn btn-sm btn-success" %></td>
               <td><%= link_to "Destroy", book_path(@book), method: :delete, class:"btn btn-sm btn-danger" %></td>
@@ -28,31 +28,18 @@
         </tbody>
       </table>
       <%#コメント表示機能%>
-      <div class="comments">
-        <table>
-          <tr>
-            <% @book.post_comments.each do |post_comment| %>
-              <td>
-                <%= attachment_image_tag post_comment.user, :profile_image, :fill, 40, 40, fallback: "no_image.jpg"%></br>
-                <%= link_to post_comment.user.name, user_path(post_comment.user_id) %>
-              </td>
-              <td><%= post_comment.comment %></td>
-              <% if post_comment.user == current_user %>
-                <div class="comment-delete">
-                  <td>
-                    <%= link_to "Destroy", book_post_comment_path(post_comment.book, post_comment), method: :delete, class:"btn btn-sm btn-danger" %>
-                  </td>
-                </div>
-              <% end %>
-            <% end %>
-          </tr>
+      <div class="comments table">
+        <h2>Comments</h2>
+        <table id="index-comments">
+          
+          <%= render 'post_comments/index', book: @book %>
         </table>
       </div>
       <%#コメント投稿機能%>
       <div class="new-comments">
-        <%= form_with(model:[@book, @post_comment], local: true) do |f| %>
+        <%= form_with(model:[@book, @post_comment], remote: true) do |f| %>
           <div class="form-group">
-            <%= f.text_area :comment, rows:'5',class:"form-control", placeholder: "コメントをここに" %>
+            <%= f.text_area :comment, rows:'5',class:"form-control" %>
           </div>
           <div class="form-group">
             <%= f.submit "送信", class:"btn btn-success" %>
